@@ -24,10 +24,31 @@ def bubble_sort_and_sum(matrix):
 
 
 def print_matrix(matrix):
-    """виведення матриці на екран"""
-    for row in matrix:
-        print(" ".join(map(str, row)))
     sums = [sum(col) for col in zip(*matrix)]
+    sorted_columns = []
+
+    # Розділити стовпці на парні та непарні
+    even_columns = [matrix[i] for i in range(len(matrix)) if i % 2 == 0]
+    odd_columns = [matrix[i] for i in range(len(matrix)) if i % 2 != 0]
+
+    # Сортування парних стовпців зверху донизу
+    sorted_even_columns = [sorted(column, reverse=True) for column in even_columns]
+
+    # Сортування непарних стовпців знизу вгору
+    sorted_odd_columns = [sorted(column) for column in odd_columns]
+
+    # Збереження відсортованих стовпців
+    for i in range(len(matrix)):
+        if i % 2 == 0:
+            sorted_columns.append(sorted_even_columns.pop(0))
+        else:
+            sorted_columns.append(sorted_odd_columns.pop(0))
+
+    # Виведення відсортованої матриці
+    for i in range(len(matrix)):
+        row = [sorted_columns[j][i] for j in range(len(sorted_columns))]
+        print(" ".join(map(str, row)))
+
     print("Суми стовпців:", sums)
 
 
