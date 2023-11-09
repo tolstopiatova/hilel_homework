@@ -14,42 +14,28 @@ def bubble_sort_and_sum(matrix):
             sums[j] += matrix[i][j]
     n = len(sums)
     """виправлене сортування"""
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            if sums[j] > sums[j + 1]:
-                sums[j], sums[j + 1] = sums[j + 1], sums[j]
-                for k in range(len(matrix)):
-                    matrix[k][j], matrix[k][j + 1] = matrix[k][j + 1], matrix[k][j]
+    for j in range(n):
+        for i in range(n - 1):
+                for k in range(n - 1 - i):
+                    if (((j+1) % 2 ==1 and matrix[k][j] < matrix [k+1][j]) or
+                        ((j+1) % 2 ==0 and matrix[k][j] > matrix [k+1][j])):
+                          matrix[k][j], matrix[k+1][j] = matrix[k+1][j], matrix[k][j]
     return matrix
 
 
 def print_matrix(matrix):
-    sums = [sum(col) for col in zip(*matrix)]
-    sorted_columns = []
+    max_elem_len = 2  
 
-    # Розділити стовпці на парні та непарні
-    even_columns = [matrix[i] for i in range(len(matrix)) if i % 2 == 0]
-    odd_columns = [matrix[i] for i in range(len(matrix)) if i % 2 != 0]
+    sums = [0] * len(matrix[0])
+    for row in matrix:
+        for i, elem in enumerate(row):
+            sums[i] += elem
+            print(f"{elem:>{max_elem_len}}", end=" ")
+        print()
 
-    # Сортування парних стовпців зверху донизу
-    sorted_even_columns = [sorted(column, reverse=True) for column in even_columns]
-
-    # Сортування непарних стовпців знизу вгору
-    sorted_odd_columns = [sorted(column) for column in odd_columns]
-
-    # Збереження відсортованих стовпців
-    for i in range(len(matrix)):
-        if i % 2 == 0:
-            sorted_columns.append(sorted_even_columns.pop(0))
-        else:
-            sorted_columns.append(sorted_odd_columns.pop(0))
-
-    # Виведення відсортованої матриці
-    for i in range(len(matrix)):
-        row = [sorted_columns[j][i] for j in range(len(sorted_columns))]
-        print(" ".join(map(str, row)))
-
-    print("Суми стовпців:", sums)
+    for col_sum in sums:
+        print(f"{col_sum:>{max_elem_len}}", end=" ")
+    print()
 
 
 # Головна частина програми
