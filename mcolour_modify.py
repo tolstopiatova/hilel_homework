@@ -74,7 +74,7 @@ def info_message(message):
     return info_message
 
 
-def custom_styled_text(text, color=None, background=None, style=None):
+def custom_styled_text(text, color=None, background=None, style=None, bold_keywords=None):
     """
      Створює стилізований текст з заданими параметрами.
     :param text: Текст, який потрібно стилізувати.
@@ -83,15 +83,17 @@ def custom_styled_text(text, color=None, background=None, style=None):
     :param style: Стиль тексту (за замовчуванням None).
     :return: Рядок із застосованими стилізацією, кольором тексту та фоном.
     """
-    style_code = f"\033[{style}m" if style else ""
-    color_code = f"\033[{colour[color]}m" if color else ""
-    background_code = f"\033[{int(colour.get(background, '32')[:-1]) + 10}m" if background else ""
-    clean_style_code = "\033[0m"
+
+    clean_style_code = '\033[0m'
+    style_code = f"\033[{style}m"
+    color_code = f"\033[{colour[color]}m"
+    background_code = f"\033[{int(colour.get(background, '41')[:-1]) + 10}m"
+    for keyword in bold_keywords:
+        bold_code = "1m"
+        text = text.replace(keyword, f'\033[{bold_code}{color_code}{background_code}{keyword}{clean_style_code}')
 
     styled_txt = f"{style_code}{color_code}{background_code}{text}{clean_style_code}"
     return styled_txt
-
-
 """
 Example:
 s = "\033[3m"         # відповідає за стиль
@@ -107,7 +109,7 @@ if __name__ == "__main__":
     print(warning_message("ups i did sit again"))
     print(error_message("wrong way"))
     print(info_message("thanks for info"))
-    custom_text = custom_styled_text("Custom Text", color="red", background="red", style="1")
+    custom_text = custom_styled_text("My Custom Text", color="red", background="purpure", style="3", bold_keywords=["My, Text"])
     print(custom_text)
 
 

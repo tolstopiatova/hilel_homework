@@ -26,7 +26,7 @@ def print_poem():
     """
 
     # Виведення вірша з використанням стилів
-    custom_poem = custom_styled_text(poem, color="blue", background="red", style="3")
+    custom_poem = custom_styled_text(poem, color="blue", background="purpure", style="3", bold_keywords=["Соловейко", "країна"])
     print(custom_poem)
 
 
